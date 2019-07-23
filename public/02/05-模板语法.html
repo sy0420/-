@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="../assets/template-web.js"></script>
+
+    <!-- 定义模板 -->
+    <script id="sss" type="text/html">
+        <h1>{{name}}</h1>
+
+        {{if age > 18}}
+        <p>欢迎来玩~</p>
+        {{else}}
+        <p>禁止未成年人来玩~</p>
+        {{/if}}
+
+        <ul>
+            {{each heros}}
+            <li>{{$index}} - {{$value}}</li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <script>
+        // 这里写JS代码，调用插件提供的template函数
+        // 函数有两个参数
+        // 参数1 ： 模板的id
+        // 参数2 : JS对象，表示模板中使用的数据
+        // 函数有一个返回值，返回值就是数据和模板组合的结果
+        var html = template('sss', {
+            name: '张三',
+            age: 20,
+            heros: ['亚索', '孙悟空', '德玛西亚之力', '德玛西亚皇子', '盲僧']
+        });
+
+        // console.log(html);
+        /*
+        <h1>张三</h1>
+        <h2>20</h2>
+        */
+        document.body.innerHTML = html;
+    </script>
+</body>
+
+</html>

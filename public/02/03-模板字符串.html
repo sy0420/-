@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var a = 'hello';
+        var b = '123' + a + '456';
+
+        var c = 'world';
+        var d = `123` +
+            c + `456`;
+        console.log(d);
+
+        var e = 'hello';
+        var f = `123${e + a}456`;
+        // console.log(f);
+
+        var g = ['aaa', 'bbb', 'ccc'];
+        var str = '';
+        for (var i = 0; i < g.length; i++) {
+            str += `<li>
+                    <p>${g[i]}</p>
+                    <p></p>
+                </li>`;
+        }
+    </script>
+</body>
+
+</html>

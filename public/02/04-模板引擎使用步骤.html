@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="../assets/template-web.js"></script>
+
+    <!-- 下面的script标签是模板 -->
+    <script id="test" type="text/html">
+        <h1>{{title}}</h1>
+        <p>{{username}}</p>
+    </script>
+
+    <script>
+        // 调用template函数，意思是将模板和下面是数据组合到一起
+        var html = template('test', {
+            title: '基本例子',
+            username: '李白'
+        });
+
+        console.log(html);
+        document.body.innerHTML = html;
+    </script>
+</body>
+
+</html>

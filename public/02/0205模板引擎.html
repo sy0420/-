@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 第一步引入模板引擎 -->
+    <script src="../assets/template-web.js"></script>
+
+    <!-- 定义模板 -->
+    <!-- 注意:使用模板时,需要动态添加的内容,用双括号{{}} -->
+    <script id="copy" type="text/html">
+        <h1>欢迎大家来到,王者荣耀</h1>
+        <p>{{name}}</p>
+        {{if age > 18}}
+        <p>妲己陪你玩</p>
+        {{else}}
+        <p>好好学习o</p>
+        {{/if}}
+        <ul>
+            <p>请选择您的英雄</p>
+            <!-- 循环遍历英雄列表 -->
+            {{each hero}}
+            <!-- 下标           值 -->
+            <li>{{$index}}--{{$value}}</li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <!-- 使用模板 -->
+    <script>
+        // 调用template方法 传入两个参数:id,js对象
+        //接收一个返回值,组合模板和数据
+        var wangzhe = template('copy', {
+            name: 'hello',
+            age: 20,
+            hero: ['瑶', 'yao', '公孙离', '蔡文姬', '狄仁杰', '王昭君']
+        });
+        //使用数据
+        document.body.innerHTML = wangzhe;
+    </script>
+</body>
+
+</html>

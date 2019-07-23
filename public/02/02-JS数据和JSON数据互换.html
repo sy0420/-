@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 定义一些js格式的数据
+        var a = ['西施', '王昭君', '貂蝉', '杨玉环'];
+        var o = {name: '宋江', nickname: '及时雨', age: 38};
+        var b = true;
+
+        // 把JS格式的数据，转成JSON格式   JSON.stringify()
+        var jsonA = JSON.stringify(a);
+        var jsonO = JSON.stringify(o);
+        var jsonB = JSON.stringify(b);
+        console.log(jsonA)
+        console.log(jsonO)
+        console.log(jsonB)
+
+        // 把JSON格式的数据，转成JS格式   JSON.parse()
+        console.log(JSON.parse(jsonA))
+        console.log(JSON.parse(jsonO))
+        console.log(JSON.parse(jsonB))
+
+        JSON.parse('[]{}'); // 报错
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../assets/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="display-1">留言板</h1>
+        <!-- 上水平线 -->
+        <hr>
+        <!-- 动态获取服务器中的数据 -->
+        <ul id="messages" class="list-unstyled">
+
+
+        </ul>
+        <!-- 底水平线 -->
+        <hr>
+        <!-- 昵称框 -->
+        <div class="form-group">
+            <label for="txt_name">称呼:</label>
+            <input type="text" class="form-control" id="txt_name" name="xxx">
+        </div>
+        <!-- 留言框 -->
+        <div class="form-group">
+            <label for="txt_content">留言:</label>
+            <textarea class="form-control" id="txt_content" cols="80" rows="10"></textarea>
+        </div>
+        <!-- 提交按钮 -->
+        <button id="btn_send" class="btn btn-primary">提交</button>
+
+    </div>
+    <script>
+        console.log('执行')
+    </script>
+
+    <!-- 引入模板引擎 -->
+    <script src="../assets/template-web.js"></script>
+
+    <!-- 1.定义模板 -->
+    <script id="moban" type="text/html">
+        <!-- 设置各行变色 -->
+        {{each arr}} {{if $index % 2 == 0}}
+        <!-- 注意 此时li不加闭合符,这样会共享下面li的内容 -->
+        <li class="media" style="background:#eee">
+            {{else}}
+            <li class="media">
+                {{/if}}
+                <img src="../upload/171605405.jpg" class="mr-3">
+                <div class="media-body">
+                    <h4>{{$value.name}}</h4>
+                    <p>{{$value.content}}</p>
+                </div>
+            </li>
+            {{/each}}
+    </script>
+    <!--2. 设置ajax请求,接收浏览器返回的数据 -->
+    <script>
+        var xhr = new XMLHttpRequest();
+        //封装成一个函数,便于多次使用
+        function loadData() {
+            console.log('ok');
+            xhr.open('get', '/getMsg');
+            xhr.send();
+            xhr.onload = function() {
+                //获取到的数据是json格式,转成js格式
+                var data = JSON.parse(this.response);
+                var str = template('moban', {
+                    arr: data
+                });
+                document.getElementById('messages').innerHTML = str;
+            }
+        }
+        // 当页面打开时,调用一次
+        loadData();
+    </script>
+
+
+
+
+
+
+
+    <!-- 3.使用模板 ,添加留言-->
+    <script>
+        // 设置点击事件
+        document.getElementById('btn_send').onclick = function() {
+            //获取输入框的内容
+            var txt_name = document.getElementById('txt_name');
+            var txt_content = document.getElementById('txt_content');
+            //在发送一次ajax请求,把数据传递给服务器
+            xhr.open('post', '/addMsg');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            // 传入参数
+            xhr.send(`name=${txt_name.value}&content=${txt_content.value}`);
+            xhr.onload = function() {
+                if (this.response === 'true') {
+                    loadData();
+                    txt_name.value = txt_content.value = '';
+                } else {
+                    alert('输入有误,请重新输入')
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

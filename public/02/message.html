@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>留言板</title>
+    <link rel="stylesheet" href="../assets/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="display-1">留言板</h1>
+        <hr>
+        <!-- <div id="loading">正在拼命加载数据.....</div> -->
+        <ul id="messages" class="list-unstyled">
+
+        </ul>
+        <hr>
+        <div class="form-group">
+            <label for="txt_name">称呼：</label>
+            <input class="form-control" id="txt_name" name="xxx" type="text">
+        </div>
+        <div class="form-group">
+            <label for="txt_content">留言：</label>
+            <textarea class="form-control" id="txt_content" cols="80" rows="10"></textarea>
+        </div>
+        <button type="button" id="btn_send" class="btn btn-primary">提交</button>
+    </div>
+
+    <script src="../assets/template-web.js"></script>
+    <!-- 定义模板 -->
+    <script id="moban" type="text/html">
+        {{each arr}} {{if $index % 2 == 0}}
+        <li class="media" style="background-color: #f1f3f4">
+            {{else}}
+            <li class="media">
+                {{/if}}
+                <img class="mr-3" src="../upload/171605405.jpg" />
+                <div class="media-body">
+                    <h4>{{$value.name}}</h4>
+                    <p>{{$value.content}}</p>
+                </div>
+            </li>
+            {{/each}}
+    </script>
+
+    <script>
+        // 页面刷新，马上获取所有的留言数据
+        var xhr = new XMLHttpRequest();
+
+        function loadData() {
+            xhr.open('GET', '../getMsg');
+            xhr.send();
+            xhr.onload = function() {
+                // console.log(this.response);
+                // 把JSON格式的字符串，转成JS格式的数组
+                var data = JSON.parse(this.response);
+                console.log(data);
+                // 直接调用template函数
+                var str = template('moban', {
+                    arr: data
+                });
+
+                document.getElementById('messages').innerHTML = str;
+            }
+        }
+        // 页面刷新，先调用一次loadData
+        loadData();
+    </script>
+
+
+    <script>
+        // 添加留言
+        // 点击提交按钮的时候，获取输入框的值。然后将称呼和留言内容发送给 /addMsg 接口
+        document.getElementById('btn_send').onclick = function() {
+            // 获取输入框
+            var txt_name = document.getElementById('txt_name');
+            var txt_content = document.getElementById('txt_content');
+            // 发送Ajax请求
+            // var xhr = new XMLHttpRequest(); 
+            xhr.open('POST', '../addMsg');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`name=${txt_name.value}&content=${txt_content.value}`);
+            xhr.onload = function() {
+                // console.log(this.response);
+                if (this.response === 'true') {
+                    // location.reload();
+                    // 调用loadData加载所有的数据
+                    loadData();
+                    // 清空输入框的值
+                    txt_name.value = txt_content.value = '';
+                } else {
+                    alert('添加失败');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
